@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoalsApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% if User.find_by_session_token(session[:session_token]) %>
+      <form action="<%= session_url %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <label for="Log Out">
+          <input type="submit" value="Log Out" id="Log Out">
+        </label>
+      </form>
+    <% else %>
+      <a href="<%= new_session_url %>">Log In</a>
+    <% end %>
+    <%= flash[:success] %>
+    <% if flash[:errors] %>
+      <ul>
+        <% flash[:errors].each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    <% end  %>
+    <%= yield %>
+  </body>
+</html>
